@@ -80,7 +80,7 @@ a {
 }
 
 .content-section {
-	padding: 32px 10%;
+	padding: 2rem 10%;
 }
 
 #about {
@@ -115,13 +115,13 @@ h1 {
 	text-transform: uppercase;
 	text-align: center;
 	font-size: 4rem;
-	letter-spacing: 5px;
+	letter-spacing: 0.16em;
 }
 
 #intro {
 	flex: 60%;
-	padding: 10px 50px 30px;
-	font-size: 3.5vh;
+	padding: 0.32em 1.6em 0.96em;
+	font-size: 2rem;
 }
 
 #intro h1, #contact h1 {
@@ -330,21 +330,20 @@ input.collapsible
 
 .project-display-link {
 	flex-shrink: 1;
-	flex-basis: 27%;
+	flex-basis: calc(33% - 6rem);
 	box-sizing: content-box;
-	padding: 2.5vh 3%;
+	padding: 3rem;
 	margin: 0;
 	color: inherit;
 	visibility: visible;
 	opacity: 1;
-	transition: opacity 500ms, padding 250ms ease-in-out, flex-basis 250ms ease-in-out;
-	height: 55vh;
+	transform: none;
+	transition: opacity 500ms, transform 250ms ease-in-out;
 }
 
 .project-display-link:hover, .project-display-link:focus, .project-display-link:active {
 	outline: none;
-	padding: 2.5vh 0;
-	flex-basis: 33%;
+	transform: scale(1.1);
 }
 
 .project-display {
@@ -362,13 +361,13 @@ input.collapsible
 
 .project-display .project-title {
 	flex-grow: 1;
-	padding: 2vmin;
+	padding: 2rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	font-size: calc(3vmin - 35%);
-	line-height: calc(3vmin + 35%);
-	margin: 1.5vmin 0;
+	font-size: 1.75rem;
+	line-height: 2.6rem;
+	margin: 1.5rem 0;
     margin-block-start: 0;
     margin-block-end: 0;
 }
@@ -382,16 +381,16 @@ input.collapsible
     text-align: center;
     margin-block-start: 0;
     margin-block-end: 0;
-    font-size: 2vmin;
-    margin: 0.5vmin 0;
     line-height: 1.5em;
+    font-size: 1.2rem;
+    margin: 0.3em 0;
 }
 
 .project-year {
 	background-color: var(--color-dark);
 	color: var(--color-light);
 	margin: 0;
-	font-size: 2.75vmin;
+	font-size: 1.5rem;
 	padding: 0.75em;
 	text-align: center;
 }
@@ -483,7 +482,7 @@ input.collapsible
 
 #contact {
 	background: var(--color-dark-transparent-25);
-	padding-bottom: 68px;
+	padding-bottom: 4.5rem;
 }
 
 #social-links {
