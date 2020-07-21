@@ -170,6 +170,8 @@ h1 {
     z-index: 1;
     border-top: 0.32rem solid var(--color-light);
 	border-bottom: 0.32rem solid var(--color-light);
+	order: 1;
+	flex-basis: 4rem;
 }
 
 #experience-list li.experience-item.secondspectrum:before
@@ -222,20 +224,20 @@ h1 {
 
 .experience.period
 {
-	flex: 5 2 15%;
-	order: 1;
+	flex: 5 2 calc(0.15 * (100% - 7rem));
+	order: 2;
 }
 
 .experience.role
 {
-	flex: 17 10 80%;
-	order: 2;
+	flex: 17 10 calc(0.8 * (100% - 7rem));
+	order: 3;
 	padding: 0 2%;
 }
 
 .experience.collapsible-toggle
 {
-	order: 3;
+	order: 4;
 }
 
 h2.experience
@@ -279,15 +281,15 @@ input.collapsible
 
 .collapsible-toggle
 {
-	width: 1vw;
-	height: 1vw;
+	width: 1em;
+	height: 1em;
 	box-sizing: border-box;
 	border-style: solid;
 	border-color: var(--color-dark);
-	border-width: 0 1px 1px 0;
+	border-width: 0 0.15em 0.15em 0;
 	transform: rotate(45deg);
 	transition: border-width 150ms ease-in-out, transform 250ms ease-in-out;
-	padding: 0;
+	padding: 0.5em;
 	margin: 0;
 	appearance: none;
 	background: none;
@@ -296,8 +298,8 @@ input.collapsible
 
 .collapsible-toggle:hover, .collapsible-toggle:active, .collapsible:focus + .collapsible-toggle
 {
-	border-bottom-width: 3px;
-	border-right-width: 3px;
+	border-bottom-width: 0.2em;
+	border-right-width: 0.2em;
 }
 
 .collapsible-toggle, .collapsible-toggle:hover, .collapsible-toggle:active, .collapsible-toggle:focus
