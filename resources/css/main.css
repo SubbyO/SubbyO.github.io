@@ -168,27 +168,27 @@ h1 {
 	width: 4rem;
 	height: 4rem;
     z-index: 1;
-    border-top: 0.32rem solid var(--color-light);
-	border-bottom: 0.32rem solid var(--color-light);
+    border-top: 0.32rem solid #f5f8f9;
+	border-bottom: 0.32rem solid #f5f8f9;
 	order: 1;
 	flex-basis: 4rem;
 }
 
 #experience-list li.experience-item.secondspectrum:before
 {
-	background: url(../images/2s.png), var(--color-light);
+	background: url(../images/2s.png), #f5f8f9;
 	background-size: cover;
 }
 
 #experience-list li.experience-item.uber:before
 {
-	background: url(../images/uber.png), var(--color-light);
+	background: url(../images/uber.png), #f5f8f9;
 	background-size: cover;
 }
 
 #experience-list li.experience-item.msft:before
 {
-	background: url(../images/msft.png), var(--color-light);
+	background: url(../images/msft.png), #f5f8f9;
 	background-size: cover;
 }
 
@@ -554,6 +554,8 @@ input.collapsible
 	    z-index: 1;
 	    border-top: 0.32rem solid white;
 		border-bottom: 0.32rem solid white;
+		order: 1;
+		flex-basis: 4rem;
 	}
 
 	#experience-list li.experience-item.secondspectrum:before
@@ -583,9 +585,5 @@ input.collapsible
 		height: 100%;
 		width: 0.25rem;
 		z-index: 0;
-	}
-
-	.project-display .project-title {
-		line-height: 125%;
 	}
 }
