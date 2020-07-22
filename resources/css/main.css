@@ -83,31 +83,14 @@ a {
 	padding: 2rem 10%;
 }
 
-#about {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
 #picture {
-	flex: 40%;
-	margin: 5%;
-	height: auto;
-	overflow: hidden;
+	width: 12vw;
+	height: 12vw;
+	margin: 1em auto;
 	border-radius: 50%;
-	border: 0.75vmin solid rgba(255, 255, 255, 0.72);
-	box-shadow: 0 0 1vmin 2vmin rgba(40, 40, 40, 0.8);
-}
-
-#picture:before {
-	content: '';
-	padding-top: 100%;
-	float: left;
-}
-
-.portrait-container {
-	height: 0;
-	overflow: visible;
+	border: 0.2em solid rgba(255, 255, 255, 0.8);
+	box-shadow: 0 0 0.2em 0.4em rgba(40, 40, 40, 0.8);
+	overflow: hidden;
 }
 
 h1 {
@@ -119,12 +102,28 @@ h1 {
 }
 
 #intro {
-	flex: 60%;
-	padding: 0.32em 1.6em 0.96em;
-	font-size: 2rem;
+	padding: 0;
+	margin: 0;
+	width: 100%;
 }
 
-#intro h1, #contact h1 {
+#intro h1 {
+	font-size: 3.2rem;
+	margin: 0 auto;
+}
+
+#intro p {
+	margin: 0.72em auto;
+	padding: 0;
+	font-size: 1.32rem;
+	text-align: center;
+}
+
+#intro p, #intro h1 {
+	text-shadow: 0.1em 0.1em 0.2em var(--color-dark);
+}
+
+#contact h1 {
 	margin: 0.65em auto;
 }
 
