@@ -168,27 +168,31 @@ h1 {
 	width: 4rem;
 	height: 4rem;
     z-index: 1;
-    border-top: 0.32rem solid #f5f8f9;
-	border-bottom: 0.32rem solid #f5f8f9;
-	order: 1;
-	flex-basis: 4rem;
+    border-top: 0.32rem solid var(--color-light);
+	border-bottom: 0.32rem solid var(--color-light);
 }
 
 #experience-list li.experience-item.secondspectrum:before
 {
-	background: url(../images/2s.png), #f5f8f9;
+	/*background: url(../images/2s.png), var(--color-light);*/
+	background-color: var(--color-light);
+	background-image: url(../images/2s.png);
 	background-size: cover;
 }
 
 #experience-list li.experience-item.uber:before
 {
-	background: url(../images/uber.png), #f5f8f9;
+	/*background: url(../images/uber.png), var(--color-light);*/
+	background-color: var(--color-light);
+	background-image: url(../images/uber.png);
 	background-size: cover;
 }
 
 #experience-list li.experience-item.msft:before
 {
-	background: url(../images/msft.png), #f5f8f9;
+	/*background: url(../images/msft.png), var(--color-light);*/
+	background-color: var(--color-light);
+	background-image: url(../images/msft.png);
 	background-size: cover;
 }
 
@@ -224,20 +228,20 @@ h1 {
 
 .experience.period
 {
-	flex: 5 2 calc(0.15 * (100% - 7rem));
-	order: 2;
+	flex: 5 2 15%;
+	order: 1;
 }
 
 .experience.role
 {
-	flex: 17 10 calc(0.8 * (100% - 7rem));
-	order: 3;
+	flex: 17 10 80%;
+	order: 2;
 	padding: 0 2%;
 }
 
 .experience.collapsible-toggle
 {
-	order: 4;
+	order: 3;
 }
 
 h2.experience
@@ -554,8 +558,6 @@ input.collapsible
 	    z-index: 1;
 	    border-top: 0.32rem solid white;
 		border-bottom: 0.32rem solid white;
-		order: 1;
-		flex-basis: 4rem;
 	}
 
 	#experience-list li.experience-item.secondspectrum:before
