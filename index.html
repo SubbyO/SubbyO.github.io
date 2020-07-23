@@ -93,173 +93,175 @@
 					</div>
 					<div id="projects" class="page">
 						<h1>My Projects</h1>
+
+						<div id="slimnets-info" class="project-info">
+							<div class="info-container">
+								<a href="#" class="back-button"><i class="arrow left"></i> Back</a>
+								<h2 class="project-title">SlimNets: An Exploration of Deep Model Compression and Acceleration</h2>
+								<h3>Overview:</h3>
+								<p>SlimNets was a project I undertook with MIT classmates Christopher Sweeney and Ini Oguntola for the class <a href="https://www.eecs.mit.edu/academics-admissions/academic-information/subject-updates-spring-2018/6883" target="_blank">6.883 (Science of Deep Learning)</a>. The goal was to explore the efficency of three distinct methods of compression &mdash; weight pruning, low rank factorization, and knowledge distillation &mdash; on a VGG19 deep network and compare and contrast the results of each technique.
+								</p>
+								<h3>Contributions:</h3>
+								<p>I implemented the low rank factorization compression method and evaluated its results. I also integrated low rank factorization into a final experiment combining all three compression methods on the VGG19 network.
+								</p>
+								<h3>Implementation:</h3>
+								<p>This project was implemented in Python using the <a href="https://pytorch.org/" target="_blank">PyTorch</a> library. I obtained a VGG19 model pre-trained on the CIFAR10 dataset and imposed rank constraints on its conv layers by converting each conv layer with <i>N</i> inputs and <i>M</i> outputs into a sequence of 2 layers, the first with <i>N</i> inputs and <i>K</i> outputs and the second with <i>K</i> inputs and <i>M</i> outputs, where <i>K</i> < <i>M, N</i>. <i>K</i> values for each layer were tuned as hyperparameters in validation. I then used Singular Value Decomposition to derive low rank approximations of the weights of each pretrained layer and initialized the weights of the rank constrained layers with these approximations. Then, I trained the resulting low rank model on a CUDA enabled GPU-equipped machine for a small number of epochs and evaluated its accuracy compared to that of the pretrained model.<br/>More details on my implementation can be found in the linked paper.
+								</p>
+								<h3>Results:</h3>
+								<p>The rank-constrained VGG19 achieved a test accuracy of 93.27%, 0.84% higher than the 92.43% achieved by the pretrained VGG19. The weights of the low-rank model used about 32 MB of memory, roughly 40% of the 78.4 MB used by the unconstrained model. The network derived by combining all three compression methods reduced memory usage by a factor of 85 while retaining 96% of original accuracy. SlimNets was awarded best student paper finalist at <a href="http://www.ieee-hpec.org/2018/2018program/sept26.htm" target="_blank">IEEE HPEC 2018</a>.
+								</p>
+								<h3 class="project-links">
+								Links:&nbsp;&nbsp;<a href="https://arxiv.org/pdf/1808.00496.pdf" target="_blank">Paper</a><a href="https://github.com/ChristopherSweeney/SlimNets" target="_blank">GitHub</a>
+								</h3>
+							</div>
+						</div>
+						<div id="cvfp-info" class="project-info">
+							<div class="info-container">
+								<a href="#" class="back-button"><i class="arrow left"></i> Back</a>
+								<h2 class="project-title">Classifying Shots Taken in NBA Games with Deep Learning</h2>
+								<h3>Overview:</h3>
+								<p>I took this on as a final project for <a href="http://6.869.csail.mit.edu/fa18/" target="_blank">6.869 (Advances in Computer Vision)</a> with classmates Christien Williams and Yaateh Richardson. The goal was to experiment with deep neural network architectures for the task of classifying basketball shot types from video footage. The project explored classification using basic CNN networks, 3D CNNs (using time as a convolutional dimension), and RNNs with learned CNN feature representations as sequential inputs.
+								</p>
+								<h3>Contributions:</h3>
+								<p>
+									<ul>
+										<li>I collected and organized a dataset for the project made up of shot footage from 10 NBA games.</li>
+										<li>I set up the framework for loading pictures and videos from the dataset as input to models used in the project.</li>
+										<li>I implemented the frame-by-frame CNN classification method used in the experiment as well as the CNN informed RNN method, and integrated the resulting models into an ensemble of all models used in the experiment.</li>
+									</ul>
+								</p>
+								<h3>Implementation:</h3>
+								<p>
+									To curate the dataset for this project, I isolated video clips of shots from NBA game footage and labeled each clip by shot type (freethow, dunk, three-pointer...). Then, with the help of <a href="https://opencv.org/" target="_blank">OpenCV</a>, I converted each video clip into a sequence of 40 frame images extracted from the clip over evenly spaced intervals. I created two data loaders in <a href="https://pytorch.org/" target="_blank">PyTorch</a>, one that loaded frame images from the dataset as individual inputs, and another that loaded entire video clips as sequences of frames.<br/>For frame-by-frame classification, I trained several ResNet networks on a training set consisting of all individual frames, scaled and padded to required input size, from 75% of the labeled shots in the dataset. I experimented with ResNet18, ResNet32, and ResNet50 architectures to determine which network's depth was best suited for the data and objective. I trained and validated these models on a machine equipped with two CUDA-enabled GPUs and made use of data and compute parallelization across GPUs to optimize performance for deeper models. 10% of the shot frames were used as a validation set to select optimal network size as well as other hyperparemeters such as dropout and learning rates, and the remaining 15% of shots were held out for testing. Top-1 and top-2 classification accuracy were chosen as evaluation metrics over cross-entropy or other loss due to the skewed relationships between classes for the problem. For the size of the training set, the ResNet18 network proved sufficient and least prone to overfitting, so this model was selected. <br/>After training and validating the ResNet, I used its learned features to develop a more sophisticated unidirectional LSTM network. The LSTM took in video clips, represented as sequences of feature vectors extracted from the ResNet model, as input. It was trained and evaluated on the same video clips as the Resnet model.<br/>More implementation details can be found in the linked project report.
+								</p>
+								<h3>Results:</h3>
+								<p>
+									All of the models developed in the experiment significantly outperform benchmark strategies of random or max guessing, and the results of the ensemble classifier are promising when compared to models developed for similar tasks. The frame-by-frame Resnet18 model achieved a classification accuracy of 60.14% and top-2 accuracy of 86.15% on the testing set. The derived LSTM model achieved a classification accuracy of 63.18% and top-2 accuracy of 75% on the test set. The ensemble of models developed in this experiment achieved a test classification accuracy of 79.05% and top-2 accuracy of 94.96%.
+								</p>
+								<h3 class="project-links">
+								Links:&nbsp;&nbsp;<a href="resources/papers/869-paper.pdf" target="_blank">Report</a><a href="https://github.mit.edu/subbyo/6.869-Final-Project" target="_blank">GitHub</a>
+								</h3>
+							</div>
+						</div>
+						<div id="thesis-info" class="project-info">
+							<div class="info-container">
+								<a href="#" class="back-button"><i class="arrow left"></i> Back</a>
+								<h2 class="project-title">Machine Learning Models for Screening and Diagnosis of Infections (Master's Thesis)</h2>
+								<h3>Overview:</h3>
+								<p>For my Masters of Engineering thesis, I conducted research and development with the <a href="https://d-lab.mit.edu/research/mobile-technology" target="_blank">Mobile Technology group of the MIT D-Lab</a> on projects aimed at using technology to provide reliable and unbiased screening and diagnosis for infectious diseases to patients in underserved areas. My work focused on developing machine learning frameworks for this task.
+								</p>
+								<h3>Contributions:</h3>
+								<p>
+									<ul>
+										<li>I trained and evaluated a Logistic Regression model to screen for infections in surgical site wounds using features extracted from visible light images of the wounds.</li>
+										<li>I built a framework for extracting features to be used in diagnosing infectious pulmonary diseases from thermal images of patients’ faces.</li>
+										<li>I conducted an experiment analyzing potential gender and socioeconomic bias in previous models used by my research group to screen patients for pulmonary diseases.</li>
+									</ul>
+								</p>
+								<h3>Implementation:</h3>
+								<p>All development for my research was done in Python with the help of the <a href="https://scikit-learn.org/stable/" target="_blank">Scikit-learn</a> and <a href="https://opencv.org/" target="_blank">OpenCV</a> libraries. For surgical site wound infection prediction, I developed a pipeline that took RGB images as input, converted them into LAB color space to better highlight skin irregularities, sectioned the image into regional blocks and computed color and texture statistics for each block. The statistics were then used as input features for a Logistic Regression model trained with L1 Regularization. The weights learned by the model were used to determine which features were most useful in identifying the presence of infections.<br/>For infectious pulmonary disease prediction, I underwent similar steps using thermal images instead of RGB images. I created a pipeline that took temperature map images of patients' torsos, and using OpenCV, identified regions containing the faces, eyes, nose, and cheeks of each patient. Statistical features were computed for each of these regions and passed in as input to a Logistic Regression classifier with L1 Regularization.<br/>The bias analysis experiment observed the effects of training a model on a set of patients that is demographically skewed towards a majority group on the model’s testing performance on patients of each group (majority, minority, and all patients). To achieve this, I implemented an algorithm that generated training sets with specified proportions of minority and majority group patients from a training pool. I trained a Logistic Regression model on datasets that were increasingly skewed towards majority patients and observed the correlation between skew and accuracy across different groups.<br/>More details on implementation can be found in the linked copy of my thesis paper.
+								</p>
+								<h3>Results:</h3>
+								<p>The surgical site infection prediction model was able to achieve nearly perfect classification results on a testing set of 143 patients who were part of a clinical study conducted on C-section patients at clinical facilities in rural Rwanda. These outstanding results led to a paper about this approach being presented at the <a href="https://embs.papercept.net/conferences/conferences/EMBC19/program/EMBC19_ContentListWeb_3.html" target="_blank">2019 IEEE EMBC</a> conference. The published paper from the conference is linked below.<br/>
+								The pulmonary infection prediction model achieved an average accuracy of 87.10% and AUC of 0.8125 on a testing set of 32 thermal facial images. These results are motivating as a preliminary assessment of the power of the extracted thermal features. The group plans on expanding the framework to utilize the features with more advanced models and larger datasets once more patients are able to be screened.<br/>
+								The bias analysis experiment fortunately uncovered no significant gender or socioeconomic biases in the models used by my research group to screen patients for pulmonary diseases.
+								</p>
+								<h3 class="project-links">
+								Links:&nbsp;&nbsp;<a href="https://dspace.mit.edu/handle/1721.1/123039" target="_blank">Thesis</a><a href="https://ieeexplore.ieee.org/document/8857942" target="_blank">IEEE EMBC Conference Paper</a>
+								</h3>
+							</div>
+						</div>
+						<div id="autocomplete-info" class="project-info">
+							<div class="info-container">
+								<a href="#" class="back-button"><i class="arrow left"></i> Back</a>
+								<h2 class="project-title">Autocomplete Server</h2>
+								<h3>Overview:</h3>
+								<p>
+									This project was my solution to a programming challenge that involved designing and implementing an auto-complete server built on a database of sample sentence queries. The server accepts partial queries from a user and suggests completed sentence results from the sample database in real time.
+								</p>
+								<h3>Contributions:</h3>
+								<p>
+									<ul>
+										<li>I wrote code to perform offline processing of the sample database in order to create and store a model for online auto-completion.</li>
+										<li>I implemented methods to load the stored auto-completion model and generate completions for given prefixes</li>
+										<li>I developed a server engine to accept user queries and return completions obtained from the autocomplete method</li>
+										<li>I designed a web user interface for the server to be accessed from.</li>
+									</ul>
+								</p>
+								<h3>Implementation:</h3>
+								<p>
+									I implemented the autocomplete engine in Python 3 with the help of the <a href="https://pandas.pydata.org/" target="_blank">Pandas</a>, <a href="https://www.nltk.org/" target="_blank">NLTK</a>, and <a href="https://flask.palletsprojects.com/en/1.1.x/" target="_blank">Flask</a> libraries. My implementation is based on a <a href="https://en.wikipedia.org/wiki/Trie" target="_blank">trie</a> model that stores sentences from the sample dataset, along with the frequency of occurence of the sentences. I make use of two types of tries in my solution&mdash;WordTries and LetterTries. WordTries store sentences by breaking them down into prefixes consisting of the words they contain. This structure enables efficient querying of sentences that start with a given prefix of words. LetterTries store words with their individual letters as prefixes, in a similar fashion to WordTries. In WordTries, each node associated with a word w contains a LetterTrie that stores the words that immediately follow w in observed sentences. This makes it possible to get sentence completions by querying WordTrie nodes with prefixes that are word fragments.<br/>To create the autocomplete model, I first used Pandas functions to read in sample conversation data and split the messages into individual sentences using NLTK's sentence tokenization. I cleaned the data by combining sentences that were identical ignoring case and punctuation and counted sentence frequencies. Then, I inserted the sentences into a WordTrie along with their frequency values. I used python's pickle module to serialize the resulting WordTrie model and save it to disk to facilitate efficient realtime autocompletion.<br/>I wrote a module that loads in the pickled model and provides a function that takes in a prefix and uses the WordTrie model to generate and return sentence completions in JSON format, sorted by most-to-least frequent. This function accepts two optional parameters that can be specified by clients: the maximum number of completions to be returned and the minimum frequency of occurence in the sample data for returned completions.<br/>I developed an HTTP server for the autocomplete engine using Flask. The server accepts GET requests and provides JSON responses.<br/>Finally, I built a web browser friendly user interface for the server using HTML, CSS, and Javascript. The UI provides a simple textbox where users can input queries and see completions dynamically populate.
+								</p>
+								<h3>Results:</h3>
+								<p>
+									My autocomplete server engine received strong positive feedback from organizers of the challenge. It exceeded expectations in terms of efficiency, design, and code correctness. The code for the project can be found in the linked GitHub repository.
+								</p>
+								<h3 class="project-links">
+								Links:&nbsp;&nbsp;<a href="https://github.com/SubbyO/Autocomplete-Server" target="_blank">GitHub</a>
+								</h3>
+							</div>
+						</div>
+						<div id="nba-info" class="project-info">
+							<div class="info-container">
+								<a href="#" class="back-button"><i class="arrow left"></i> Back</a>
+								<h2 class="project-title">Predicting NBA MVPs and All Stars Using Sparsity Based Regularization</h2>
+								<h3>Overview:</h3>
+								<p>
+									As a final project for <a href="http://www.mit.edu/~9.520/fall17/" target="_blank">6.860 (Statistical Learning Theory)</a>, I aimed to determine factors that are indicative of NBA players being selected as All Stars and MVPs using sparsity based regularization methods.
+								</p>
+								<h3>Contributions:</h3>
+								<p>
+									<ul>
+										<li>I collected data and statistics on NBA players from 10 recent seasons.</li>
+										<li>I trained and validated regularized regression models using the collected data</li>
+										<li>I used the resulting model to predict All Stars and the MVP for the in-progress 2017-2018 NBA season based on data from the season to date.</li>
+									</ul>
+								</p>
+								<h3>Implementation:</h3>
+								<p>
+									I wrote Python scripts to collect player information and statistics for the 10 previous and the ongoing NBA seasons from <a href="https://www.basketball-reference.com/" target="_blank">Basketball Reference</a> as well as social media presence statistics from Twitter using the python-twitter API. I also collected labels in the form of number of all star votes received and MVP vote share for each player from each season.</br>Using the <a href="https://scikit-learn.org/stable/" target="_blank">Scikit-learn</a> library, I standardized data points across seasons and trained regression models using the Lasso and Elastic Net regularization techniques for variable selection. I also made use of regression with a polynomial kernel to capture potential higher dimensional interactions between features. The models were trained on the first 7 seasons of collected data and validated on the last 3 full seasons in order to select the best regularization parameters.<br/>I passed standardized player data from the first 3 months of the 2017-2018 NBA season as input to the trained kernelized regression model and obtained predictions for the All Stars and MVP of the season.<br/>More implementation details can be found in the linked project abstract.
+								</p>
+								<h3>Results:</h3>
+								<p>The trained regularized models selected just five of the thousands of available variables for prediction. Unsurprisingly, in both the All Star and MVP cases, the factor determined to be the most important by the models was the number of seasons in which the player had received the award in question. As a result, Lebron James was consistently predicted to have a high chance of winning the MVP award since he has won it many times in recent years. My predictors achieved 82% validation accuracy on MVPs and 72% on All Star awardees. In line with what was previously stated, my model incorrectly predicted Lebron James as the 2018 NBA MVP instead of James Harden (the actual recipient), however the model identified Harden as the runner-up behind James. See the linked abstract and poster for more information.
+								</p>
+								<h3 class="project-links">
+								Links:&nbsp;&nbsp;<a href="resources/papers/860-abstract.pdf" target="_blank">Abstract</a><a href="resources/papers/860-poster.pdf" target="_blank">Poster</a>
+								</h3>
+							</div>
+						</div>
+						<div id="easypick-info" class="project-info">
+							<div class="info-container">
+								<a href="#" class="back-button"><i class="arrow left"></i> Back</a>
+								<h2 class="project-title">EasyPick</h2>
+								<h3>Overview:</h3>
+								<p>
+									As a final project for <a href="http://www.mit.edu/~6.170/" target="_blank">6.170 (Software Studio)</a>, I built a webapp with classmates Famien Koko, Jared Hanson, and Lara Timbo. EasyPick is a tool that allows MIT students to easily search for and filter through courses based on their ratings from previous semesters. With EasyPick, users can search for courses using multiple filters and sort results according to their preferences. Users are prompted by the app to provide ratings for courses they have previously taken. EasyPick makes use of these ratings and colaborative filtering to recommend new classes that users may enjoy based on their existing course reviews.
+								</p>
+								<h3>Contributions:</h3>
+								<p>
+									<ul>
+										<li>I developed an application route for users to search for courses by name and criteria</li>
+										<li>I implemented a collaborative filtering based course recommendation system for the app</li>
+									</ul>
+								</p>
+								<h3>Implementation:</h3>
+								<p>
+									I developed the app's search route using <a href="https://nodejs.org" target="_blank">Node.js</a> with the help of the <a href="https://expressjs.com" target="_blank">Express</a> framework for application routing. I wrote code to allow users to query courses from the app's <a href="https://www.mongodb.com/" target="_blank">MongoDB</a> database, filtering by criteria such as course department, units, required hours, difficulty, and course rating.<br/>I implemented a simple collaborative filtering algorithm that recommended courses to users by identifying peers who had taken the most classes in common with them and then recommending courses that had been taken by those peers but not the user. This initial implementation was accomplished through successive database queries and was used in early iterations of the app. Later, I integrated the <a href="https://www.npmjs.com/package/likely" target="_blank">likely</a> node package into the app to facilitate usage of a more sophisticated algorithm.
+								</p>
+								<h3>Results:</h3>
+								<p>The app was met with very positive reception from course staff and students. My group received an award for best project presentation and our app was adopted by many of our classmates. A live demo of the EasyPick is linked below.
+								</p>
+								<h3 class="project-links">
+								Links:&nbsp;&nbsp;<a href="http://easypick.herokuapp.com/" target="_blank">Demo</a>
+								</h3>
+							</div>
+						</div>
+
 						<div id="projects-container">
-							<div id="slimnets-info" class="project-info">
-								<div class="info-container">
-									<a href="#" class="back-button"><i class="arrow left"></i> Back</a>
-									<h2 class="project-title">SlimNets: An Exploration of Deep Model Compression and Acceleration</h2>
-									<h3>Overview:</h3>
-									<p>SlimNets was a project I undertook with MIT classmates Christopher Sweeney and Ini Oguntola for the class <a href="https://www.eecs.mit.edu/academics-admissions/academic-information/subject-updates-spring-2018/6883" target="_blank">6.883 (Science of Deep Learning)</a>. The goal was to explore the efficency of three distinct methods of compression &mdash; weight pruning, low rank factorization, and knowledge distillation &mdash; on a VGG19 deep network and compare and contrast the results of each technique.
-									</p>
-									<h3>Contributions:</h3>
-									<p>I implemented the low rank factorization compression method and evaluated its results. I also integrated low rank factorization into a final experiment combining all three compression methods on the VGG19 network.
-									</p>
-									<h3>Implementation:</h3>
-									<p>This project was implemented in Python using the <a href="https://pytorch.org/" target="_blank">PyTorch</a> library. I obtained a VGG19 model pre-trained on the CIFAR10 dataset and imposed a rank constraint on each of its conv layers. I then used SVD to derive low rank approximations of the weights of each pretrained layer and initialized the weights of the rank constrained layers with these approximations. Then, I trained the low rank model for a small number of epochs and evaluated its accuracy compared to that of the pretrained model.<br/>More details on my implementation can be found in the linked paper.
-									</p>
-									<h3>Results:</h3>
-									<p>The rank-constrained VGG19 achieved a test accuracy of 93.27%, 0.84% higher than the 92.43% achieved by the pretrained VGG19. The weights of the low-rank model used about 32 MB of memory, roughly 40% of the 78.4 MB used by the unconstrained model. The network derived by combining all three compression methods reduced memory usage by a factor of 85 while retaining 96% of original accuracy. SlimNets was awarded best student paper finalist at <a href="http://www.ieee-hpec.org/2018/2018program/sept26.htm" target="_blank">IEEE HPEC 2018</a>.
-									</p>
-									<h3 class="project-links">
-									Links:&nbsp;&nbsp;<a href="https://arxiv.org/pdf/1808.00496.pdf" target="_blank">Paper</a><a href="https://github.com/ChristopherSweeney/SlimNets" target="_blank">GitHub</a>
-									</h3>
-								</div>
-							</div>
-							<div id="cvfp-info" class="project-info">
-								<div class="info-container">
-									<a href="#" class="back-button"><i class="arrow left"></i> Back</a>
-									<h2 class="project-title">Classifying Shots Taken in NBA Games with Deep Learning</h2>
-									<h3>Overview:</h3>
-									<p>I took this on as a final project for <a href="http://6.869.csail.mit.edu/fa18/" target="_blank">6.869 (Advances in Computer Vision)</a> with classmates Christien Williams and Yaateh Richardson. The goal was to experiment with deep neural network architectures for the task of classifying basketball shot types from video footage. The project explored classification using basic CNN networks, 3D CNNs (using time as a convolutional dimension), and RNNs with learned CNN feature representations as sequential inputs.
-									</p>
-									<h3>Contributions:</h3>
-									<p>
-										<ul>
-											<li>I collected and organized a dataset for the project made up of shot footage from 10 NBA games.</li>
-											<li>I set up the framework for loading pictures and videos from the dataset as input to models used in the project.</li>
-											<li>I implemented the frame-by-frame CNN classification method used in the experiment as well as the CNN informed RNN method, and integrated the resulting models into an ensemble of all models used in the experiment.</li>
-										</ul>
-									</p>
-									<h3>Implementation:</h3>
-									<p>
-										To curate the dataset for this project, I isolated video clips of shots from NBA game footage and labeled each clip by shot type (freethow, dunk, three-pointer...). Then, with the help of <a href="https://opencv.org/" target="_blank">OpenCV</a>, I converted each video clip into a sequence of 40 frame images extracted from the clip over evenly spaced intervals. I created two data loaders in <a href="https://pytorch.org/" target="_blank">PyTorch</a>, one that loaded frame images from the dataset as individual inputs, and another that loaded entire video clips as sequences of frames.<br/>For frame-by-frame classification, I trained a ResNet18 network on a training set consisting of all individual frames, scaled and padded to required input size, from 75% of the labeled shots in the dataset. I evaluated the top-1 and top-2 classification accuracy of this model on all frames from 15% of the shots in the dataset, and used the remaining 10% of shot frames as a validation set to tune hyperparameters such as dropout and learning rates.<br/>After training and validating this model, I used its learned features to develop a more sophisticated unidirectional LSTM network. The LSTM took in video clips, represented as sequences of feature vectors extracted from the Resnet model, as input. It was trained and evaluated on the same video clips as the Resnet model.<br/>More implementation details can be found in the linked project report.
-									</p>
-									<h3>Results:</h3>
-									<p>
-										All of the models developed in the experiment significantly outperform benchmark strategies of random or max guessing, and the results of the ensemble classifier are promising when compared to models developed for similar tasks. The frame-by-frame Resnet18 model achieved a classification accuracy of 60.14% and top-2 accuracy of 86.15% on the testing set. The derived LSTM model achieved a classification accuracy of 63.18% and top-2 accuracy of 75% on the test set. The ensemble of models developed in this experiment achieved a test classification accuracy of 79.05% and top-2 accuracy of 94.96%.
-									</p>
-									<h3 class="project-links">
-									Links:&nbsp;&nbsp;<a href="resources/papers/869-paper.pdf" target="_blank">Report</a><a href="https://github.mit.edu/subbyo/6.869-Final-Project" target="_blank">GitHub</a>
-									</h3>
-								</div>
-							</div>
-							<div id="thesis-info" class="project-info">
-								<div class="info-container">
-									<a href="#" class="back-button"><i class="arrow left"></i> Back</a>
-									<h2 class="project-title">Machine Learning Models for Screening and Diagnosis of Infections (Master's Thesis)</h2>
-									<h3>Overview:</h3>
-									<p>For my Masters of Engineering thesis, I conducted research and development with the <a href="https://d-lab.mit.edu/research/mobile-technology" target="_blank">Mobile Technology group of the MIT D-Lab</a> on projects aimed at using technology to provide reliable and unbiased screening and diagnosis for infectious diseases to patients in underserved areas. My work focused on developing machine learning frameworks for this task.
-									</p>
-									<h3>Contributions:</h3>
-									<p>
-										<ul>
-											<li>I trained and evaluated a Logistic Regression model to screen for infections in surgical site wounds using features extracted from visible light images of the wounds.</li>
-											<li>I built a framework for extracting features to be used in diagnosing infectious pulmonary diseases from thermal images of patients’ faces.</li>
-											<li>I conducted an experiment analyzing potential gender and socioeconomic bias in previous models used by my research group to screen patients for pulmonary diseases.</li>
-										</ul>
-									</p>
-									<h3>Implementation:</h3>
-									<p>All development for my research was done in Python with the help of the <a href="https://scikit-learn.org/stable/" target="_blank">Scikit-learn</a> and <a href="https://opencv.org/" target="_blank">OpenCV</a> libraries. For surgical site wound infection prediction, I developed a pipeline that took RGB images as input, converted them into LAB color space to better highlight skin irregularities, sectioned the image into regional blocks and computed color and texture statistics for each block. The statistics were then used as input features for a Logistic Regression model trained with L1 Regularization. The weights learned by the model were used to determine which features were most useful in identifying the presence of infections.<br/>For infectious pulmonary disease prediction, I underwent similar steps using thermal images instead of RGB images. I created a pipeline that took temperature map images of patients' torsos, and using OpenCV, identified regions containing the faces, eyes, nose, and cheeks of each patient. Statistical features were computed for each of these regions and passed in as input to a Logistic Regression classifier with L1 Regularization.<br/>The bias analysis experiment observed the effects of training a model on a set of patients that is demographically skewed towards a majority group on the model’s testing performance on patients of each group (majority, minority, and all patients). To achieve this, I implemented an algorithm that generated training sets with specified proportions of minority and majority group patients from a training pool. I trained a Logistic Regression model on datasets that were increasingly skewed towards majority patients and observed the correlation between skew and accuracy across different groups.<br/>More details on implementation can be found in the linked copy of my thesis paper.
-									</p>
-									<h3>Results:</h3>
-									<p>The surgical site infection prediction model was able to achieve nearly perfect classification results on a testing set of 143 patients who were part of a clinical study conducted on C-section patients at clinical facilities in rural Rwanda. These outstanding results led to a paper about this approach being presented at the <a href="https://embs.papercept.net/conferences/conferences/EMBC19/program/EMBC19_ContentListWeb_3.html" target="_blank">2019 IEEE EMBC</a> conference. The published paper from the conference is linked below.<br/>
-									The pulmonary infection prediction model achieved an average accuracy of 87.10% and AUC of 0.8125 on a testing set of 32 thermal facial images. These results are motivating as a preliminary assessment of the power of the extracted thermal features. The group plans on expanding the framework to utilize the features with more advanced models and larger datasets once more patients are able to be screened.<br/>
-									The bias analysis experiment fortunately uncovered no significant gender or socioeconomic biases in the models used by my research group to screen patients for pulmonary diseases.
-									</p>
-									<h3 class="project-links">
-									Links:&nbsp;&nbsp;<a href="https://dspace.mit.edu/handle/1721.1/123039" target="_blank">Thesis</a><a href="https://ieeexplore.ieee.org/document/8857942" target="_blank">IEEE EMBC Conference Paper</a>
-									</h3>
-								</div>
-							</div>
-							<div id="autocomplete-info" class="project-info">
-								<div class="info-container">
-									<a href="#" class="back-button"><i class="arrow left"></i> Back</a>
-									<h2 class="project-title">Autocomplete Server</h2>
-									<h3>Overview:</h3>
-									<p>
-										This project was my solution to a programming challenge that involved designing and implementing an auto-complete server built on a database of sample sentence queries. The server accepts partial queries from a user and suggests completed sentence results from the sample database in real time.
-									</p>
-									<h3>Contributions:</h3>
-									<p>
-										<ul>
-											<li>I wrote code to perform offline processing of the sample database in order to create and store a model for online auto-completion.</li>
-											<li>I implemented methods to load the stored auto-completion model and generate completions for given prefixes</li>
-											<li>I developed a server engine to accept user queries and return completions obtained from the autocomplete method</li>
-											<li>I designed a web user interface for the server to be accessed from.</li>
-										</ul>
-									</p>
-									<h3>Implementation:</h3>
-									<p>
-										I implemented the autocomplete engine in Python 3 with the help of the <a href="https://pandas.pydata.org/" target="_blank">Pandas</a>, <a href="https://www.nltk.org/" target="_blank">NLTK</a>, and <a href="https://flask.palletsprojects.com/en/1.1.x/" target="_blank">Flask</a> libraries. My implementation is based on a <a href="https://en.wikipedia.org/wiki/Trie" target="_blank">trie</a> model that stores sentences from the sample dataset, along with the frequency of occurence of the sentences. I make use of two types of tries in my solution&mdash;WordTries and LetterTries. WordTries store sentences by breaking them down into prefixes consisting of the words they contain. This structure enables efficient querying of sentences that start with a given prefix of words. LetterTries store words with their individual letters as prefixes, in a similar fashion to WordTries. In WordTries, each node associated with a word w contains a LetterTrie that stores the words that immediately follow w in observed sentences. This makes it possible to get sentence completions by querying WordTrie nodes with prefixes that are word fragments.<br/>To create the autocomplete model, I first used Pandas functions to read in sample conversation data and split the messages into individual sentences using NLTK's sentence tokenization. I cleaned the data by combining sentences that were identical ignoring case and punctuation and counted sentence frequencies. Then, I inserted the sentences into a WordTrie along with their frequency values. I used python's pickle module to serialize the resulting WordTrie model and save it to disk to facilitate efficient realtime autocompletion.<br/>I wrote a module that loads in the pickled model and provides a function that takes in a prefix and uses the WordTrie model to generate and return sentence completions in JSON format, sorted by most-to-least frequent. This function accepts two optional parameters that can be specified by clients: the maximum number of completions to be returned and the minimum frequency of occurence in the sample data for returned completions.<br/>I developed an HTTP server for the autocomplete engine using Flask. The server accepts GET requests and provides JSON responses.<br/>Finally, I built a web browser friendly user interface for the server using HTML, CSS, and Javascript. The UI provides a simple textbox where users can input queries and see completions dynamically populate.
-									</p>
-									<h3>Results:</h3>
-									<p>
-										My autocomplete server engine received strong positive feedback from organizers of the challenge. It exceeded expectations in terms of efficiency, design, and code correctness. The code for the project can be found in the linked GitHub repository.
-									</p>
-									<h3 class="project-links">
-									Links:&nbsp;&nbsp;<a href="https://github.com/SubbyO/Autocomplete-Server" target="_blank">GitHub</a>
-									</h3>
-								</div>
-							</div>
-							<div id="nba-info" class="project-info">
-								<div class="info-container">
-									<a href="#" class="back-button"><i class="arrow left"></i> Back</a>
-									<h2 class="project-title">Predicting NBA MVPs and All Stars Using Sparsity Based Regularization</h2>
-									<h3>Overview:</h3>
-									<p>
-										As a final project for <a href="http://www.mit.edu/~9.520/fall17/" target="_blank">6.860 (Statistical Learning Theory)</a>, I aimed to determine factors that are indicative of NBA players being selected as All Stars and MVPs using sparsity based regularization methods.
-									</p>
-									<h3>Contributions:</h3>
-									<p>
-										<ul>
-											<li>I collected data and statistics on NBA players from 10 recent seasons.</li>
-											<li>I trained and validated regularized regression models using the collected data</li>
-											<li>I used the resulting model to predict All Stars and the MVP for the in-progress 2017-2018 NBA season based on data from the season to date.</li>
-										</ul>
-									</p>
-									<h3>Implementation:</h3>
-									<p>
-										I wrote Python scripts to collect player information and statistics for the 10 previous and the ongoing NBA seasons from <a href="https://www.basketball-reference.com/" target="_blank">Basketball Reference</a> as well as social media presence statistics from Twitter using the python-twitter API. I also collected labels in the form of number of all star votes received and MVP vote share for each player from each season.</br>Using the <a href="https://scikit-learn.org/stable/" target="_blank">Scikit-learn</a> library, I standardized data points across seasons and trained regression models using the Lasso and Elastic Net regularization techniques for variable selection. I also made use of regression with a polynomial kernel to capture potential higher dimensional interactions between features. The models were trained on the first 7 seasons of collected data and validated on the last 3 full seasons in order to select the best regularization parameters.<br/>I passed standardized player data from the first 3 months of the 2017-2018 NBA season as input to the trained kernelized regression model and obtained predictions for the All Stars and MVP of the season.<br/>More implementation details can be found in the linked project abstract.
-									</p>
-									<h3>Results:</h3>
-									<p>The trained regularized models selected just five of the thousands of available variables for prediction. Unsurprisingly, in both the All Star and MVP cases, the factor determined to be the most important by the models was the number of seasons in which the player had received the award in question. As a result, Lebron James was consistently predicted to have a high chance of winning the MVP award since he has won it many times in recent years. My predictors achieved 82% validation accuracy on MVPs and 72% on All Star awardees. In line with what was previously stated, my model incorrectly predicted Lebron James as the 2018 NBA MVP instead of James Harden (the actual recipient), however the model identified Harden as the runner-up behind James. See the linked abstract and poster for more information.
-									</p>
-									<h3 class="project-links">
-									Links:&nbsp;&nbsp;<a href="resources/papers/860-abstract.pdf" target="_blank">Abstract</a><a href="resources/papers/860-poster.pdf" target="_blank">Poster</a>
-									</h3>
-								</div>
-							</div>
-							<div id="easypick-info" class="project-info">
-								<div class="info-container">
-									<a href="#" class="back-button"><i class="arrow left"></i> Back</a>
-									<h2 class="project-title">EasyPick</h2>
-									<h3>Overview:</h3>
-									<p>
-										As a final project for <a href="http://www.mit.edu/~6.170/" target="_blank">6.170 (Software Studio)</a>, I built a webapp with classmates Famien Koko, Jared Hanson, and Lara Timbo. EasyPick is a tool that allows MIT students to easily search for and filter through courses based on their ratings from previous semesters. With EasyPick, users can search for courses using multiple filters and sort results according to their preferences. Users are prompted by the app to provide ratings for courses they have previously taken. EasyPick makes use of these ratings and colaborative filtering to recommend new classes that users may enjoy based on their existing course reviews.
-									</p>
-									<h3>Contributions:</h3>
-									<p>
-										<ul>
-											<li>I developed an application route for users to search for courses by name and criteria</li>
-											<li>I implemented a collaborative filtering based course recommendation system for the app</li>
-										</ul>
-									</p>
-									<h3>Implementation:</h3>
-									<p>
-										I developed the app's search route using <a href="https://nodejs.org" target="_blank">Node.js</a> with the help of the <a href="https://expressjs.com" target="_blank">Express</a> framework for application routing. I wrote code to allow users to query courses from the app's <a href="https://www.mongodb.com/" target="_blank">MongoDB</a> database, filtering by criteria such as course department, units, required hours, difficulty, and course rating.<br/>I implemented a simple collaborative filtering algorithm that recommended courses to users by identifying peers who had taken the most classes in common with them and then recommending courses that had been taken by those peers but not the user. This initial implementation was accomplished through successive database queries and was used in early iterations of the app. Later, I integrated the <a href="https://www.npmjs.com/package/likely" target="_blank">likely</a> node package into the app to facilitate usage of a more sophisticated algorithm.
-									</p>
-									<h3>Results:</h3>
-									<p>The app was met with very positive reception from course staff and students. My group received an award for best project presentation and our app was adopted by many of our classmates. A live demo of the EasyPick is linked below.
-									</p>
-									<h3 class="project-links">
-									Links:&nbsp;&nbsp;<a href="http://easypick.herokuapp.com/" target="_blank">Demo</a>
-									</h3>
-								</div>
-							</div>
 							<a href="#slimnets-info" class="project-display-link">
 								<span class="project-display">
 									<h2 class="project-title">SlimNets: An Exploration of Deep Model Compression and Acceleration</h2>
-									<p class="project-tags"><b>Tags:</b><br/><i>Deep Learning, PyTorch, Neural Network Compression</i></p>
+									<p class="project-tags"><b>Tags:</b><br/><i>Deep Learning, PyTorch, Neural Network Compression, GPU Computing</i></p>
 									<p class="project-year">2018</p>
 								</span>
 							</a>
