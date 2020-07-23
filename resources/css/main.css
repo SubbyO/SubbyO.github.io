@@ -173,7 +173,6 @@ h1 {
 
 #experience-list li.experience-item.secondspectrum:before
 {
-	/*background: url(../images/2s.png), var(--color-light);*/
 	background-color: var(--color-light);
 	background-image: url(../images/2s.png);
 	background-size: cover;
@@ -181,7 +180,6 @@ h1 {
 
 #experience-list li.experience-item.uber:before
 {
-	/*background: url(../images/uber.png), var(--color-light);*/
 	background-color: var(--color-light);
 	background-image: url(../images/uber.png);
 	background-size: cover;
@@ -189,7 +187,6 @@ h1 {
 
 #experience-list li.experience-item.msft:before
 {
-	/*background: url(../images/msft.png), var(--color-light);*/
 	background-color: var(--color-light);
 	background-image: url(../images/msft.png);
 	background-size: cover;
@@ -325,15 +322,15 @@ input.collapsible
 	line-height: 2em;
 }
 
-#projects {
-	position: relative;
-}
-
 #projects-container {
 	display: flex;
 	flex-wrap: wrap;
 	margin: 0;
 	padding: 0;
+	height: auto;
+	overflow: hidden;
+	opacity: 1;
+	transition: opacity 500ms ease-in-out, height 0s 500ms;
 }
 
 .project-display-link {
@@ -343,10 +340,8 @@ input.collapsible
 	padding: 3rem;
 	margin: 0;
 	color: inherit;
-	visibility: visible;
-	opacity: 1;
 	transform: none;
-	transition: opacity 500ms, transform 250ms ease-in-out;
+	transition: transform 250ms ease-in-out;
 }
 
 .project-display-link:hover, .project-display-link:focus, .project-display-link:active {
@@ -404,33 +399,13 @@ input.collapsible
 }
 
 .project-info {
-	position: absolute;
 	width: 100%;
-	height: 100%;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	transition: opacity 500ms;
-	transition-delay: 500ms;
-	visibility: hidden;
+	transition: opacity 500ms ease-in-out 500ms, height 0s 1s;
+	height: 0;
+	overflow: hidden;
 	opacity: 0;
-	overflow-y: auto;
-}
-
-.project-info::-webkit-scrollbar {
-	width: 9px;
-}
-
-.project-info::-webkit-scrollbar-thumb {
-	background-color: #555555;
-	border-radius: 6px;
-	border: 3px solid #555555;
-}
-
-.info-container {
-	background: var(--color-light);
-	margin-top: 12rem;
+	margin: 0;
+	padding: 0;
 }
 
 .arrow {
@@ -466,13 +441,13 @@ input.collapsible
 }
 
 .project-info:target {
-	visibility: visible;
+	height: auto;
 	opacity: 1;
 	transition-delay: 0ms;
 }
 
-.project-info:target ~ a.project-display-link {
-	visibility: hidden;
+.project-info:target ~ div#projects-container {
+	height: 0;
 	opacity: 0;
 	transition-delay: 500ms;
 }
