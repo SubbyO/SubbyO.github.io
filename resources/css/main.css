@@ -277,6 +277,7 @@ input.collapsible
 	height: 0;
 	margin: 0;
 	padding: 0;
+	visibility: hidden;
 }
 
 .collapsible-toggle
