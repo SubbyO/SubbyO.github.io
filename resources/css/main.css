@@ -335,14 +335,14 @@ input.collapsible
 }
 
 .project-display-link {
-	flex-shrink: 1;
-	flex-basis: 33%;
+	width: 33.3333333333%;
 	box-sizing: border-box;
 	padding: 3rem;
 	margin: 0;
 	color: inherit;
 	transform: none;
 	transition: transform 250ms ease-in-out;
+	min-height: 36vw;
 }
 
 .project-display-link:hover, .project-display-link:focus, .project-display-link:active {
