@@ -267,7 +267,8 @@ h3.experience
 	width: 100;
 	max-height: 0px;
 	overflow: hidden;
-	transition: max-height 250ms ease-in-out;
+	visibility: hidden;
+	transition: max-height 250ms ease-in-out, visibility 0s linear 250ms;
 	margin-top: 1em;
 }
 
@@ -297,7 +298,7 @@ input.collapsible
 	cursor: pointer;
 }
 
-.collapsible-toggle:hover, .collapsible-toggle:active, .collapsible:focus + .collapsible-toggle
+.collapsible-toggle:hover, .collapsible-toggle:active, .collapsible:focus + .collapsible-toggle, .collapsible-toggle:focus
 {
 	border-bottom-width: 0.2em;
 	border-right-width: 0.2em;
@@ -316,6 +317,8 @@ input.collapsible
 .collapsible:checked + .collapsible-toggle + .role .description
 {
 	max-height: 1000vh;
+	visibility: visible;
+	transition: max-height 250ms ease-in-out, visibility 0s linear 0ms;
 }
 
 .experience
@@ -331,7 +334,8 @@ input.collapsible
 	height: auto;
 	overflow: hidden;
 	opacity: 1;
-	transition: opacity 500ms ease-in-out, height 0s 500ms;
+	visibility: visible;
+	transition: opacity 500ms ease-in-out, height 0s 500ms, visibility 0s linear 0s;
 }
 
 .project-display-link {
@@ -401,12 +405,13 @@ input.collapsible
 
 .project-info {
 	width: 100%;
-	transition: opacity 500ms ease-in-out 500ms, height 0s 1s;
+	transition: opacity 500ms ease-in-out 500ms, height 0s 1s, visibility 0s linear 500ms;
 	height: 0;
 	overflow: hidden;
 	opacity: 0;
 	margin: 0;
 	padding: 0;
+	visibility: hidden;
 }
 
 .arrow {
@@ -445,12 +450,14 @@ input.collapsible
 	height: auto;
 	opacity: 1;
 	transition-delay: 0ms;
+	visibility: visible;
 }
 
 .project-info:target ~ div#projects-container {
 	height: 0;
 	opacity: 0;
 	transition-delay: 500ms;
+	visibility: hidden;
 }
 
 .project-links a {
@@ -497,7 +504,7 @@ input.collapsible
 	position: relative;
 }
 
-.sociallink:hover
+.sociallink:hover, .sociallink:focus, .sociallink:active
 {
 	background-color: #00b4ff;
 	transform: scale(1.2);
